@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  FlatList,
+  VirtualizedList,
   Platform,
   StyleSheet,
   Text,
@@ -22,9 +22,9 @@ class Autocomplete extends Component {
     containerStyle: ViewPropTypes.style,
     /**
      * Assign an array of data objects which should be
-     * rendered in respect to the entered text.
+     * rendered in respect to the entered text. Accepts array
      */
-    data: PropTypes.array,
+    data: PropTypes.object,
     /**
      * Set to `true` to hide the suggestion list.
      */
@@ -127,6 +127,10 @@ class Autocomplete extends Component {
     this.resultList = resultList;
   }
 
+  getItem(data, index) {
+    return data[index];
+  };
+
   renderResultList() {
     const { data } = this.state;
     const {
@@ -141,9 +145,11 @@ class Autocomplete extends Component {
     } = this.props;
 
     return (
-      <FlatList
+      <VirtualizedList
         ref={this.onRefListView}
         data={data}
+        getItem={this.getItem}
+        getItemCount={() => data.length}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
