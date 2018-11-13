@@ -24,7 +24,10 @@ class Autocomplete extends Component {
      * Assign an array of data objects which should be
      * rendered in respect to the entered text. Accepts array
      */
-    data: PropTypes.object,
+    data: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
+    ]),
     /**
      * Set to `true` to hide the suggestion list.
      */
